@@ -11,6 +11,7 @@ namespace _Scripts {
         public static bool IsGameOver { private get; set; }
 
         private void Awake() {
+            IsGameOver = false;
             if (BuildingBlockPrefab == null) Debug.LogError("BuildingBlockPrefab is not set", gameObject);
             _spawners = GetComponentsInChildren<BlockSpawner>();
         }
@@ -29,6 +30,8 @@ namespace _Scripts {
 
             if (IsGameOver) {
                 BuildingBlock.DestroyTheStack();
+                _cameraManager.ShowRestartBtn();
+                PlayerPrefs.SetInt("HighScore", _cameraManager.GetCurrentScore());
                 enabled = false;
                 return;
             }
